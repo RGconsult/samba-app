@@ -1,13 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import { BrandIcon } from '@/components/brand-icon';
 import { BRAND_LIST, BRANDS, type BrandId } from '@/constants/brands';
 
+const LOGO_HEIGHT = 36;
+
 /**
  * Header logo. With no brandId, renders a placeholder "Samba Rwanda" mark
- * (a dot per division + wordmark) for the landing screen. With a brandId, it
- * renders that division's placeholder mark instead. Swap either branch for
- * real logo artwork (e.g. an <Image>) once the files are available.
+ * (a dot per division + wordmark) for the landing screen — there's no combined
+ * Samba Rwanda logo file yet. With a brandId, it renders that division's real
+ * logo artwork when one is set on the brand, otherwise the same placeholder
+ * badge+text style used before real logos arrived.
  */
 export function BrandLogo({ brandId }: { brandId?: BrandId }) {
   if (!brandId) {
@@ -27,6 +30,17 @@ export function BrandLogo({ brandId }: { brandId?: BrandId }) {
   }
 
   const brand = BRANDS[brandId];
+
+  if (brand.logo) {
+    return (
+      <Image
+        source={brand.logo}
+        resizeMode="contain"
+        style={{ height: LOGO_HEIGHT, width: LOGO_HEIGHT * (brand.logoAspectRatio ?? 1) }}
+      />
+    );
+  }
+
   return (
     <View style={styles.row}>
       <View style={[styles.badge, { backgroundColor: brand.colors.primary }]}>

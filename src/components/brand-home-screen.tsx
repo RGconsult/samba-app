@@ -1,6 +1,6 @@
-import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { BrandBanner } from '@/components/brand-banner';
 import { BrandIcon } from '@/components/brand-icon';
 import { FulfillmentOptions } from '@/components/fulfillment-options';
 import { BRANDS, type BrandId } from '@/constants/brands';
@@ -10,11 +10,11 @@ export function BrandHomeScreen({ brandId }: { brandId: BrandId }) {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <LinearGradient colors={brand.colors.gradient} style={styles.hero}>
+      <BrandBanner brand={brand} photo={brand.heroPhoto} style={styles.hero} imageStyle={styles.heroImage}>
         <BrandIcon brand={brand} size={40} />
         <Text style={styles.heroTitle}>{brand.name}</Text>
         <Text style={styles.heroTagline}>{brand.tagline}</Text>
-      </LinearGradient>
+      </BrandBanner>
 
       <FulfillmentOptions accentColor={brand.colors.primary} />
 
@@ -28,7 +28,16 @@ export function BrandHomeScreen({ brandId }: { brandId: BrandId }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fafafa' },
   content: { paddingBottom: 40 },
-  hero: { margin: 16, borderRadius: 24, padding: 24, gap: 6 },
+  hero: {
+    margin: 16,
+    borderRadius: 24,
+    overflow: 'hidden',
+    height: 200,
+    justifyContent: 'flex-end',
+    padding: 24,
+    gap: 6,
+  },
+  heroImage: { borderRadius: 24 },
   heroTitle: { color: '#fff', fontSize: 22, fontWeight: '800' },
   heroTagline: { color: 'rgba(255,255,255,0.85)', fontSize: 13 },
   placeholder: { alignItems: 'center', paddingVertical: 60 },

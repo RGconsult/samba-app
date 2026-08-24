@@ -1,11 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Dimensions,
   FlatList,
-  ImageBackground,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
   Pressable,
@@ -14,6 +12,7 @@ import {
   View,
 } from 'react-native';
 
+import { BrandBanner } from '@/components/brand-banner';
 import { BrandIcon } from '@/components/brand-icon';
 import { BRAND_LIST, type Brand } from '@/constants/brands';
 
@@ -37,29 +36,11 @@ function SlideContent({ brand, onPress }: { brand: Brand; onPress: () => void })
 }
 
 function Slide({ brand, onPress }: { brand: Brand; onPress: () => void }) {
-  if (brand.photo) {
-    return (
-      <View style={[styles.slide, { width: SCREEN_WIDTH }]}>
-        <ImageBackground source={brand.photo} style={styles.card} imageStyle={styles.cardImage}>
-          <LinearGradient
-            colors={['transparent', 'rgba(0,0,0,0.8)']}
-            style={StyleSheet.absoluteFill}
-          />
-          <SlideContent brand={brand} onPress={onPress} />
-        </ImageBackground>
-      </View>
-    );
-  }
-
   return (
     <View style={[styles.slide, { width: SCREEN_WIDTH }]}>
-      <LinearGradient
-        colors={brand.colors.gradient}
-        start={{ x: 0.1, y: 0 }}
-        end={{ x: 0.9, y: 1 }}
-        style={styles.card}>
+      <BrandBanner brand={brand} photo={brand.photo} style={styles.card} imageStyle={styles.cardImage}>
         <SlideContent brand={brand} onPress={onPress} />
-      </LinearGradient>
+      </BrandBanner>
     </View>
   );
 }
