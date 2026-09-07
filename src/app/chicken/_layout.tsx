@@ -1,5 +1,5 @@
-import { BrandStackLayout } from '@/components/brand-stack-layout';
+import { BrandTabsLayout } from '@/components/brand-tabs-layout';
 
 export default function ChickenLayout() {
-  return <BrandStackLayout brandId="chicken" />;
+  return <BrandTabsLayout brandId="chicken" />;
 }

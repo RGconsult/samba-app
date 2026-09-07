@@ -15,6 +15,7 @@ import {
 import { BrandBanner } from '@/components/brand-banner';
 import { BrandIcon } from '@/components/brand-icon';
 import { BRAND_LIST, type Brand } from '@/constants/brands';
+import { useAppTheme } from '@/context/theme-context';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const AUTOPLAY_MS = 4500;
@@ -47,6 +48,9 @@ function Slide({ brand, onPress }: { brand: Brand; onPress: () => void }) {
 
 export function BrandCarousel() {
   const router = useRouter();
+  const { isDark } = useAppTheme();
+  const dotColor = isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)';
+  const dotActiveColor = isDark ? '#ffffff' : '#1a1a1a';
   const listRef = useRef<FlatList<Brand>>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const indexRef = useRef(0);
@@ -100,7 +104,13 @@ export function BrandCarousel() {
       <View style={styles.dots}>
         {BRAND_LIST.map((brand, i) => (
           <Pressable key={brand.id} onPress={() => goTo(i)} hitSlop={8}>
-            <View style={[styles.dot, i === activeIndex && styles.dotActive]} />
+            <View
+              style={[
+                styles.dot,
+                { backgroundColor: dotColor },
+                i === activeIndex && { backgroundColor: dotActiveColor, width: 22 },
+              ]}
+            />
           </Pressable>
         ))}
       </View>
@@ -139,6 +149,5 @@ const styles = StyleSheet.create({
   },
   ctaText: { fontWeight: '700', fontSize: 14 },
   dots: { flexDirection: 'row', justifyContent: 'center', gap: 8, paddingBottom: 24 },
-  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: 'rgba(255,255,255,0.3)' },
-  dotActive: { backgroundColor: '#fff', width: 22 },
+  dot: { width: 8, height: 8, borderRadius: 4 },
 });
